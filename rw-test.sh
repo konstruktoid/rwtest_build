@@ -34,7 +34,7 @@ rtest(){
   time {
     echo "READ: Reading $C random lines from $F."
     while [ $r -lt "$C" ]; do
-      head -$((${RANDOM} % $(wc -l < "$F") + 1)) "$F" | tail -1 2>/dev/null 1>&2
+      shuf -n 1 "$F" 2>/dev/null 1>&2
       ((r++))
     done
     echo "READ: Read $r random lines from $F."

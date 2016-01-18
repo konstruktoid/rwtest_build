@@ -19,20 +19,19 @@ sysinfo(){
 }
 
 wtest(){
-  time {
-    echo "WRITE: Writing $C lines to $F."
-    while [ $w -lt "$C" ]; do
-      head -n 1 /dev/urandom | openssl sha1 -sha256 | awk '{print $NF}' >> "$F"
-      ((w++))
-    done
-    echo "WRITE: $w lines written to $F."
-  }
+  echo "WRITE: Writing to $F"
   echo
+
+  for a in 4096 2048 1024 512; do
+    echo "$C input blocks, $a bytes at a time:"
+    dd if=/dev/urandom of="$F" count="$C" bs="$a"
+    echo
+  done
 }
 
 rtest(){
   time {
-    echo "READ: Reading $C random lines from $F."
+    echo "READ: Reading random lines from $F."
     while [ $r -lt "$C" ]; do
       shuf -n 1 "$F" 2>/dev/null 1>&2
       ((r++))

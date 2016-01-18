@@ -6,7 +6,7 @@ WORKDIR /usr/bin
 
 RUN apk update && \
     apk upgrade && \
-    apk --update add bash curl openssl && \
+    apk --update add bash coreutils curl openssl && \
     curl -sS https://get.docker.com/builds/Linux/x86_64/docker-$VERSION > docker-$VERSION && \
     curl -sS https://get.docker.com/builds/Linux/x86_64/docker-$VERSION.sha256 > docker-$VERSION.sha256 && \
     sha256sum -c docker-$VERSION.sha256 && \

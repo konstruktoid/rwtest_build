@@ -2,7 +2,7 @@
 settings(){
     C="$1"
     F="$(mktemp)"
-    w="0"
+    Z="$(mktemp)"
     r="0"
 
     if ! [ "$C" -eq "$C" -a "$C" -gt 1 ]; then
@@ -19,12 +19,26 @@ sysinfo(){
 }
 
 wtest(){
-  echo "WRITE: Writing to $F"
+  if [ -z "$F" -o -z "$Z" ]; then
+    echo "Missing mktemp files. Aborting"
+    exit 1
+  fi
+
+  echo "WRITE: /dev/urandom to $F"
   echo
 
   for a in 4096 2048 1024 512; do
     echo "$C input blocks, $a bytes at a time:"
-    dd if=/dev/urandom of="$F" count="$C" bs="$a"
+    dd if=/dev/urandom of="$F" count="$C" bs="$a" oflag=dsync
+    echo
+  done
+
+  echo "WRITE: /dev/zero to $Z"
+  echo
+
+  for b in 4096 2048 1024 512; do
+    echo "$C input blocks, $a bytes at a time:"
+    dd if=/dev/zero of="$Z" count="$C" bs="$b" oflag=dsync
     echo
   done
 }
@@ -44,6 +58,9 @@ rtest(){
 clean(){
   echo "CLEAN: Removing $F."
   rm "$F"
+
+  echo "CLEAN: Removing $Z."
+  rm "$Z"
 }
 
 entropy(){

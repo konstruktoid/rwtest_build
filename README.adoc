@@ -1,12 +1,14 @@
-# Docker read/write tester
+= Docker read/write tester
 
-## Usage
-```sh
+== Usage
+[source]
+----
 $ docker run --rm --read-only --tmpfs /tmp:rw,nosuid,nodev -v /var/run/docker.sock:/var/run/docker.sock konstruktoid/rwtest 10000
-```
+----
 
-### Example
-```sh
+=== Example
+[source]
+----
 Tue Feb 23 21:28:46 UTC 2016
 Client:
  Version:      1.10.2
@@ -103,4 +105,4 @@ sys     0m3.032s
 ENTROPY: 1469
 CLEAN: Removing /tmp/tmp.sW8yVulo1N.
 CLEAN: Removing /tmp/tmp.dalG3XHbrc.
-```
+----
